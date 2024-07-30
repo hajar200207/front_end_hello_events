@@ -1,0 +1,18 @@
+<p>user-dashboard works!</p>
+<h2>Tableau de bord utilisateur</h2>
+<div *ngIf="userInfo">
+  <p>Nom d'utilisateur : {{ userInfo.username }}</p>
+  <p>Rôle : {{ userInfo.role }}</p>
+  <p>Email : {{ userInfo.email }}</p>
+
+  <h3>Mettre à jour les informations</h3>
+  <form (ngSubmit)="updateUser()">
+    <label for="username">Nom d'utilisateur:</label>
+    <input id="username" [(ngModel)]="updatedUserInfo.username" name="username" required>
+
+    <label for="email">Email:</label>
+    <input id="email" [(ngModel)]="updatedUserInfo.email" name="email" required>
+
+    <button type="submit">Mettre à jour</button>
+  </form>
+</div>
