@@ -167,7 +167,6 @@
 				<scope>test</scope>
 			</dependency>
 
-<<<<<<< HEAD
 			<!-- Mockito pour mocker les dépendances -->
 			<dependency>
 				<groupId>org.mockito</groupId>
@@ -184,8 +183,6 @@
 				<scope>test</scope>
 			</dependency>
 
-=======
->>>>>>> 47622e0467f0277bb30e2c0d75f7c6c30651bd19
 	</dependencies>
 
 	<build>

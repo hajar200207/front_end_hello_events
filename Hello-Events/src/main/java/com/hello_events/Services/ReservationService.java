@@ -10,6 +10,7 @@ import com.hello_events.Repositories.EventRepository;
 import com.hello_events.Repositories.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ReservationService {
@@ -40,4 +41,14 @@ public class ReservationService {
 
         return reservationRepository.save(reservation);
     }
+    public Reservation createReservation(Reservation reservation) {
+        // Add any business logic here if needed
+        return reservationRepository.save(reservation);
+    }
+
+    public List<Reservation> getReservationsByUser(User user) {
+        return reservationRepository.findByUser(user);
+    }
+
+
 }
