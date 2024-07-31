@@ -13,6 +13,7 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './auth.interceptor';
 import {RouterLink, RouterOutlet} from "@angular/router";
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -23,6 +24,7 @@ import {RouterLink, RouterOutlet} from "@angular/router";
     AdminDashboardComponent,
     UserDashboardComponent,
     HomeComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

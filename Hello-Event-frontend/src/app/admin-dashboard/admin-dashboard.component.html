@@ -1,34 +1,19 @@
-<p>admin-dashboard works!</p>
-<h2>Informations de l'administrateur</h2>
-<div *ngIf="userInfo">
-  <p>Nom d'utilisateur : {{ userInfo.username }}</p>
-  <p>Email : {{ userInfo.email }}</p>
-  <p>Rôle : {{ userInfo.role }}</p>
-  <button (click)="updateUser(userInfo)">Modifier</button>
-</div>
-
-<h2>Gestion des utilisateurs</h2>
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Nom d'utilisateur</th>
-    <th>Email</th>
-    <th>Rôle</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let user of users">
-    <td>{{ user.id }}</td>
-    <td>{{ user.username }}</td>
-    <td>{{ user.email }}</td>
-    <td>{{ user.role }}</td>
-    <td>
-
-      <button (click)="deleteUser(user.id)">Supprimer</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
+<form (ngSubmit)="createEvent()" #eventForm="ngForm">
+  <div>
+    <label for="name">Event Name</label>
+    <input type="text" id="name" [(ngModel)]="event.name" name="name" required />
+  </div>
+  <div>
+    <label for="date">Date</label>
+    <input type="date" id="date" [(ngModel)]="event.date" name="date" required />
+  </div>
+  <div>
+    <label for="location">Location</label>
+    <input type="text" id="location" [(ngModel)]="event.location" name="location" required />
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" [(ngModel)]="event.description" name="description"></textarea>
+  </div>
+  <button type="submit" [disabled]="!eventForm.form.valid">Create Event</button>
+</form>
