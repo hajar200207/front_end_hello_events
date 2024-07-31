@@ -11,9 +11,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RequestMapping("/api/events")
 public class EventController {
 
@@ -37,13 +42,19 @@ public class EventController {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
-    @PreAuthorize("hasRole('USER')  or  hasRole('ADMIN')" )
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventDetails(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getEventDetails(@PathVariable Long id) {
         return eventService.getEventDetails(id)
-                .map(ResponseEntity::ok)
+                .map(event -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("location", event.getLocation());
+                    map.put("description", event.getDescription());
+                    return ResponseEntity.ok(map);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
+
     @PreAuthorize("hasRole('USER')  or  hasRole('ADMIN')" )
     @GetMapping("/search")
     public ResponseEntity<List<Event>> searchEvents(
@@ -65,6 +76,21 @@ public class EventController {
         List<Contact> contacts = eventService.getEventContacts(id);
         return ResponseEntity.ok(contacts);
     }
-
+    @PreAuthorize("hasRole('USER')  or  hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<List<Map<String, Object>>> getAllEvents() {
+        List<Event> events = eventService.getAllEvents();
+        List<Map<String, Object>> simplifiedEvents = events.stream()
+                .map(event -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", event.getId());
+                    map.put("name", event.getName());
+                    map.put("dateTime", event.getDateTime().toString());
+                    map.put("location", event.getLocation());
+                    return map;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(simplifiedEvents);
+    }
 
 }
