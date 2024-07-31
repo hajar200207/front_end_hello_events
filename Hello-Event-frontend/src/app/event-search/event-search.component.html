@@ -1,0 +1,15 @@
+<h2>Search Events</h2>
+<form (ngSubmit)="searchEvents()">
+  <input [(ngModel)]="date" name="date" type="date" placeholder="Date">
+  <input [(ngModel)]="location" name="location" type="text" placeholder="Location">
+  <input [(ngModel)]="keyword" name="keyword" type="text" placeholder="Keyword">
+  <button type="submit">Search</button>
+</form>
+
+<div *ngFor="let event of events">
+  <h3>{{ event.name }}</h3>
+  <p>{{ event.description }}</p>
+  <p>Date: {{ event.dateTime | date }}</p>
+  <p>Location: {{ event.location }}</p>
+  <a [routerLink]="['/event', event.id]">View Details</a>
+</div><p>event-search works!</p>

@@ -1,1 +1,22 @@
 <p>home works!</p>
+<div class="container">
+  <h1>Événements à venir</h1>
+  <mat-grid-list cols="3" rowHeight="350px">
+    <mat-grid-tile *ngFor="let event of events">
+      <mat-card class="event-card">
+        <mat-card-header>
+          <mat-card-title>{{event.name}}</mat-card-title>
+          <mat-card-subtitle>{{event.date | date:'dd/MM/yyyy HH:mm'}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="event.imageUrl" alt="{{event.name}}">
+        <mat-card-content>
+          <p>{{event.description}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary" [routerLink]="['/events', event.id]">Voir détails</button>
+          <button mat-button color="accent">Réserver</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

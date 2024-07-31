@@ -1,0 +1,16 @@
+<p>event-details works!</p>
+<div *ngIf="event">
+  <h2>{{ event.name }}</h2>
+  <p>Date: {{ event.dateTime | date:'dd/MM/yyyy HH:mm' }}</p>
+  <p>Location: {{ event.location }}</p>
+  <p>Description: {{ event.description }}</p>
+</div>
+
+<div *ngIf="error">
+  <p>{{ error }}</p>
+</div>
+
+<div *ngIf="!event && !error">
+  <p>Loading event details...</p>
+</div>
+
