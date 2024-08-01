@@ -81,7 +81,7 @@ export class EventService {
   }
 
 
-  createReservation(eventId: number, numberOfTickets: number): Observable<any> {
+ /* createReservation(eventId: number, numberOfTickets: number): Observable<any> {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
@@ -100,7 +100,35 @@ export class EventService {
   getUserReservations(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.reservationApi}/reservations`);
   }
+*/
+  createReservation(eventId: number, numberOfTickets: number): Observable<any> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
+    const body = {
+      eventId: eventId,
+      numberOfTickets: numberOfTickets
+    };
+
+    return this.http.post<any>(`${this.reservationApi}/reservation`, body, { headers, responseType: 'json' }).pipe(
+      catchError(error => {
+        console.error('Error making reservation:', error);
+        return throwError('Error making reservation. Please try again.');
+      })
+    );
+  }
+
+  getUserReservations(): Observable<Reservation[]> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<Reservation[]>(`${this.reservationApi}/reservations`, { headers }).pipe(
+      catchError(error => {
+        console.error('Error loading reservations', error);
+        return throwError('Error loading reservations. Please try again.');
+      })
+    );
+  }
 
 
 
