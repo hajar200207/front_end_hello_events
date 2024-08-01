@@ -1,0 +1,12 @@
+<div class="event-list">
+  <h2>Liste des Événements</h2>
+  <ul>
+    <li *ngFor="let event of events">
+      <h3>{{ event.name }}</h3>
+      <p>Date: {{ event.dateTime }}</p>
+      <p>Location: {{ event.location }}</p>
+      <button (click)="deleteEvent(event.id)">Supprimer</button>
+      <a [routerLink]="['/events', event.id]">Détails</a>
+    </li>
+  </ul>
+</div>
