@@ -48,7 +48,7 @@ export class EventService {
 }
 */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import {Reservation} from "./reservation.model";
@@ -101,30 +101,17 @@ export class EventService {
     return this.http.get<Reservation[]>(`${this.reservationApi}/reservations`);
   }
 */
-  createReservation(eventId: number, numberOfTickets: number): Observable<any> {
+  createReservation(reservation:Reservation): Observable<Reservation> {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const body = {
-      eventId: eventId,
-      numberOfTickets: numberOfTickets
-    };
-
-    return this.http.post<any>(`${this.reservationApi}/reservation`, body, { headers, responseType: 'json' }).pipe(
-      catchError(error => {
-        console.error('Error making reservation:', error);
-        return throwError('Error making reservation. Please try again.');
-      })
-    );
+    return this.http.post<Reservation>(`${this.reservationApi}/reservation`, reservation, { headers });
   }
 
   getUserReservations(): Observable<Reservation[]> {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    return this.http.get<Reservation[]>(`${this.reservationApi}/reservations`, { headers }).pipe(
-      catchError(error => {
-        console.error('Error loading reservations', error);
+    return this.http.get<Reservation[]>(`${this.reservationApi}/reservations`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error loading reservations:', error);
         return throwError('Error loading reservations. Please try again.');
       })
     );

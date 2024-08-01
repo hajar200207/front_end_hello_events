@@ -145,7 +145,7 @@ export class UserDashboardComponent implements OnInit {
     this.showReservationForm = true;
   }
 
-  reserveEvent() {
+ /* reserveEvent() {
     if (this.selectedEventId !== null) {
       this.eventService.createReservation(this.selectedEventId, this.numberOfTickets).subscribe(
         (response) => {
@@ -174,9 +174,35 @@ export class UserDashboardComponent implements OnInit {
     );
   }
 
+*/
 
+  reserveEvent() {
 
+    let reservation: any = {
+      eventId:this.selectedEventId,
+      numberOfTickets:this.numberOfTickets
+    }
 
+    if (this.selectedEventId) {
+      this.eventService.createReservation(reservation).subscribe((data)=>{
+        console.log("///////////////////")
+
+        console.log(data);
+      });
+    }
+  }
+
+  loadUserReservations() {
+    this.eventService.getUserReservations().subscribe(
+      (reservations: Reservation[]) => {
+        this.reservations = reservations;
+        console.log(reservations)
+      },
+      (error) => {
+        console.error('Error loading reservations', error);
+      }
+    );
+  }
   cancelReservation() {
     this.showReservationForm = false;
     this.selectedEventId = null;
