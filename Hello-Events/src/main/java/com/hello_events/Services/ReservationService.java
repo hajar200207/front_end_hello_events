@@ -1,5 +1,6 @@
 package com.hello_events.Services;
 
+import com.hello_events.Controleurs.ReservationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hello_events.Entites.Reservation;
@@ -46,8 +47,11 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public List<Reservation> getReservationsByUser(User user) {
-        return reservationRepository.findByUser(user);
+    public List<ReservationRequest> getReservationsByUser(User user) {
+        return reservationRepository.findByUser(user).stream().map(reservation -> {
+            Event event = eventRepository.findById(reservation.getEvent().getId()).get();
+            return new ReservationRequest(reservation.getId(), event.getId(),reservation.getNumberOfTickets(), event.getName(), reservation.getLastUpdated(), user.getEmail());
+        }).toList();
     }
 
 

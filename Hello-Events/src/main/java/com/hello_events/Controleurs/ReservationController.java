@@ -18,9 +18,60 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+
+//public class ReservationController {
+//
+//    @Autowired
+//    private ReservationService reservationService;
+//
+//    @Autowired
+//    private UserRepository userRepository;
+//
+//    @Autowired
+//    private EventRepository eventRepository;
+//
+//    @PreAuthorize("hasRole('USER')")
+//    @PostMapping("/reservation")
+//    public ResponseEntity<Reservation> createReservation(@RequestBody ReservationRequest reservationRequest) {
+//        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+//        String username = loggedInUser.getName();
+//        User user = userRepository.findByUsername(username);
+//
+//        try {
+//            Event event = eventRepository.findById(reservationRequest.getEventId())
+//                    .orElseThrow(() -> new RuntimeException("Event not found"));
+//
+//            Reservation reservation = new Reservation();
+//            reservation.setUser(user);
+//            reservation.setEvent(event);
+//            reservation.setNumberOfTickets(reservationRequest.getNumberOfTickets());
+//            reservation.setLastUpdated(LocalDateTime.now());
+//            reservation.setReservationTime(LocalDateTime.now());
+//            reservation.setStatus(Reservation.ReservationStatus.PENDING);
+//
+//            Reservation savedReservation = reservationService.createReservation(reservation);
+//            return ResponseEntity.ok(savedReservation);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//        }
+//    }
+//
+//    // New endpoint to get reservations by user
+//    @GetMapping("/reservations")
+//    @PreAuthorize("hasRole('USER')")
+//    public ResponseEntity<List<Reservation>> getUserReservations() {
+//        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+//        String username = loggedInUser.getName();
+//        User user = userRepository.findByUsername(username);
+//
+//        List<Reservation> reservations = reservationService.getReservationsByUser(user);
+//        return ResponseEntity.ok(reservations);
+//    }
+//
+//}
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReservationController {
 
     @Autowired
@@ -34,7 +85,7 @@ public class ReservationController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/reservation")
-    public ResponseEntity<Reservation> createReservation(@RequestBody ReservationRequest reservationRequest) {
+    public ResponseEntity<?> createReservation(@RequestBody ReservationRequest reservationRequest) {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String username = loggedInUser.getName();
         User user = userRepository.findByUsername(username);
@@ -54,20 +105,20 @@ public class ReservationController {
             Reservation savedReservation = reservationService.createReservation(reservation);
             return ResponseEntity.ok(savedReservation);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating reservation");
         }
     }
 
-    // New endpoint to get reservations by user
     @GetMapping("/reservations")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Reservation>> getUserReservations() {
+    public ResponseEntity<List<ReservationRequest>> getUserReservations() {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
         String username = loggedInUser.getName();
         User user = userRepository.findByUsername(username);
 
-        List<Reservation> reservations = reservationService.getReservationsByUser(user);
+
+        List<ReservationRequest> reservations = reservationService.getReservationsByUser(user);
+
         return ResponseEntity.ok(reservations);
     }
-
 }

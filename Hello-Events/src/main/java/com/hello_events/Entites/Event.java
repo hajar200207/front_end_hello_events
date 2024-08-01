@@ -2,18 +2,20 @@
 
 package com.hello_events.Entites;
 import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
+import lombok.*;
 
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Event {
 
-    @jakarta.persistence.Id
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
