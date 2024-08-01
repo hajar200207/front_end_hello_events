@@ -1,18 +1,35 @@
 <div class="event-create">
   <h2>Créer un Événement</h2>
-  <form (ngSubmit)="createEvent()">
-    <label for="name">Nom:</label>
-    <input id="name" [(ngModel)]="event.name" name="name" required>
+  <form (ngSubmit)="createEvent()" #eventForm="ngForm">
+    <div class="form-group">
+      <label for="name">Nom:</label>
+      <input id="name" [(ngModel)]="event.name" name="name" required #name="ngModel" placeholder="Entrez le nom de l'événement">
+      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error">
+        <div *ngIf="name.errors?.['required']">Le nom est requis.</div>
+      </div>
+    </div>
 
-    <label for="dateTime">Date et Heure:</label>
-    <input id="dateTime" [(ngModel)]="event.dateTime" name="dateTime" type="datetime-local" required>
+    <div class="form-group">
+      <label for="dateTime">Date et Heure:</label>
+      <input id="dateTime" [(ngModel)]="event.dateTime" name="dateTime" type="datetime-local" required #dateTime="ngModel">
+      <div *ngIf="dateTime.invalid && (dateTime.dirty || dateTime.touched)" class="error">
+        <div *ngIf="dateTime.errors?.['required']">La date et l'heure sont requis.</div>
+      </div>
+    </div>
 
-    <label for="location">Lieu:</label>
-    <input id="location" [(ngModel)]="event.location" name="location" required>
+    <div class="form-group">
+      <label for="location">Lieu:</label>
+      <input id="location" [(ngModel)]="event.location" name="location" required #location="ngModel" placeholder="Entrez le lieu de l'événement">
+      <div *ngIf="location.invalid && (location.dirty || location.touched)" class="error">
+        <div *ngIf="location.errors?.['required']">Le lieu est requis.</div>
+      </div>
+    </div>
 
-    <label for="description">Description:</label>
-    <textarea id="description" [(ngModel)]="event.description" name="description"></textarea>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" [(ngModel)]="event.description" name="description" placeholder="Entrez une description de l'événement"></textarea>
+    </div>
 
-    <button type="submit">Créer</button>
+    <button type="submit" [disabled]="eventForm.invalid">Créer</button>
   </form>
 </div>
