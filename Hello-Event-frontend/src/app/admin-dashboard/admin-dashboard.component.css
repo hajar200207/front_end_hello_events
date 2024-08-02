@@ -1,0 +1,48 @@
+body {
+  background-color: #f8f9fa; /* Light background color */
+}
+
+.card {
+  border: 1px solid #ffc107; /* Yellow border */
+}
+
+.card-title {
+  color: #ff9800; /* Orange title color */
+}
+
+.list-group-item {
+  background-color: #ffebcd; /* Beige background color */
+}
+
+.btn-primary {
+  background-color: #ff9800; /* Orange button color */
+  border-color: #ff9800;
+}
+
+.btn-danger {
+  background-color: #ff5722; /* Red-orange button color */
+  border-color: #ff5722;
+}
+
+.table th {
+  background-color: #ffebcd; /* Beige background color */
+  color: #000; /* Black text color */
+}
+
+.table tbody tr:hover {
+  background-color: #fff3cd; /* Light yellow hover effect */
+}
+
+.btn-warning {
+  background-color: #ffc107; /* Yellow button color */
+  border-color: #ffc107;
+}
+
+.navbar {
+  background-color: #ffc107; /* Yellow navbar */
+}
+
+.footer {
+  background-color: #ffc107; /* Yellow footer */
+  color: #fff; /* White text color */
+}
