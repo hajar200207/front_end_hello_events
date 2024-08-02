@@ -1,1 +1,25 @@
-<p>contact works!</p>
+<div *ngIf="currentView === 'contacts'">
+  <h2>Manage Contacts</h2>
+  <form (ngSubmit)="createContact()">
+    <input [(ngModel)]="newContact.name" name="name" placeholder="Name" required>
+    <input [(ngModel)]="newContact.email" name="email" placeholder="Email" required>
+    <input [(ngModel)]="newContact.subject" name="subject" placeholder="Subject" required>
+    <textarea [(ngModel)]="newContact.message" name="message" placeholder="Message" required></textarea>
+    <button type="submit">Create Contact</button>
+  </form>
+
+  <div *ngFor="let contact of contacts">
+    <h3>{{ contact.name }}</h3>
+    <p>{{ contact.email }}</p>
+    <p>{{ contact.subject }}</p>
+    <p>{{ contact.message }}</p>
+    <p>{{ contact.status }}</p>
+    <button (click)="updateContactStatus(contact, contactStatuses.NEW)">New</button>
+    <button (click)="updateContactStatus(contact, contactStatuses.IN_PROGRESS)">In Progress</button>
+    <button (click)="updateContactStatus(contact, contactStatuses.PROCESSED)">Processed</button>
+    <button (click)="updateContactStatus(contact, contactStatuses.RESOLVED)">Resolved</button>
+
+    <button (click)="deleteContact(contact.id)">Delete</button>
+  </div>
+
+</div>

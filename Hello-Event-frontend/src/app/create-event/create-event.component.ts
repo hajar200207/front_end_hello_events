@@ -1,21 +1,42 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EventService } from '../event.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-event-create',
-  templateUrl: './event-create.component.html',
-  styleUrls: ['./event-create.component.scss']
+  selector: 'app-create-event',
+  templateUrl: './create-event.component.html',
+  styleUrls: ['./create-event.component.scss']
 })
-export class EventCreateComponent {
-  event = { name: '', dateTime: '', location: '', description: '' };
+export class CreateEventComponent implements OnInit {
+  eventForm!: FormGroup;
 
-  constructor(private eventService: EventService, private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private eventService: EventService,
+    private router: Router
+  ) {}
 
-  createEvent(): void {
-    this.eventService.createEvent(this.event).subscribe(
-      () => this.router.navigate(['/events']),
-      error => console.error('Error creating event', error)
-    );
+  ngOnInit() {
+    this.eventForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      dateTime: ['', Validators.required],
+      location: ['', Validators.required],
+      description: ['', Validators.required]
+    });
+  }
+
+  onSubmit() {
+    if (this.eventForm.valid) {
+      this.eventService.createEvent(this.eventForm.value).subscribe(
+        response => {
+          console.log('Event created successfully', response);
+          this.router.navigate(['/events']);
+        },
+        error => {
+          console.error('Error creating event', error);
+        }
+      );
+    }
   }
 }

@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { EventService } from '../event.service';
 import { Reservation } from '../reservation.model';
+import { ContactService } from '../contact.service';
+import { Contact, ContactStatus } from '../contact.model';
+import {HttpHeaders} from "@angular/common/http";
 
 interface User {
   id: number;
   username: string;
   email: string;
-  role: string;
+  role?: string; // Make role optional
 }
 
 interface Event {
@@ -37,16 +40,20 @@ export class UserDashboardComponent implements OnInit {
   selectedEventId: number | null = null;
   numberOfTickets: number = 1;
   reservations: any[] = [];
+  contacts: Contact[] = [];
+  newContact: Contact = { id: 0, name: '', email: '', subject: '', message: '', submissionTime: new Date(), status: ContactStatus.NEW };
 
   constructor(
     private authService: AuthService,
-    private eventService: EventService
+    private eventService: EventService,
+    private contactService: ContactService
   ) { }
 
   ngOnInit() {
     this.loadUserInfo();
     this.loadAllEvents();
     this.loadUserReservations();
+    this.loadAllContacts();
   }
 
   parseDate(dateString: string): Date {
@@ -72,22 +79,25 @@ export class UserDashboardComponent implements OnInit {
   }
 
   updateUser() {
-    if (this.userInfo) {
-      this.authService.updateUser({ ...this.userInfo, ...this.updatedUserInfo }).subscribe(
-        response => {
-          console.log('User updated successfully', response);
-          this.userInfo = response;
-        },
-        error => {
-          if (error.status === 403) {
-            console.error('Access is forbidden: Check your token and user permissions.');
-          } else {
-            console.error('An error occurred:', error);
-          }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getToken()}`);
+    this.authService.updateUser(this.updatedUserInfo, { headers }).subscribe(
+      (response: User) => {
+        console.log('User updated successfully', response);
+        this.userInfo = response;  // Update the view with new user data
+      },
+      error => {
+        if (error.status === 403) {
+          console.error('Access is forbidden: Check your token and user permissions.');
+        } else {
+          console.error('An error occurred:', error);
         }
-      );
-    }
+      }
+    );
   }
+
+
+
+
 
   changeView(view: string) {
     this.currentView = view;
@@ -145,24 +155,25 @@ export class UserDashboardComponent implements OnInit {
     this.showReservationForm = true;
   }
 
- /* reserveEvent() {
-    if (this.selectedEventId !== null) {
-      this.eventService.createReservation(this.selectedEventId, this.numberOfTickets).subscribe(
-        (response) => {
+  reserveEvent() {
+    const reservation = {
+      eventId: this.selectedEventId,
+      numberOfTickets: this.numberOfTickets
+    };
+
+    if (this.selectedEventId) {
+      this.eventService.createReservation(reservation).subscribe(
+        response => {
           console.log('Reservation successful', response);
           this.showReservationForm = false;
         },
-        (error) => {
+        error => {
           console.error('Error making reservation', error);
-          if (error.status === 200) {
-            console.error('Unexpected response format:', error.message);
-          } else {
-            console.error('An unexpected error occurred:', error.message);
-          }
         }
       );
     }
   }
+
   loadUserReservations() {
     this.eventService.getUserReservations().subscribe(
       (reservations: Reservation[]) => {
@@ -174,38 +185,35 @@ export class UserDashboardComponent implements OnInit {
     );
   }
 
-*/
-
-  reserveEvent() {
-
-    let reservation: any = {
-      eventId:this.selectedEventId,
-      numberOfTickets:this.numberOfTickets
-    }
-
-    if (this.selectedEventId) {
-      this.eventService.createReservation(reservation).subscribe((data)=>{
-        console.log("///////////////////")
-
-        console.log(data);
-      });
-    }
-  }
-
-  loadUserReservations() {
-    this.eventService.getUserReservations().subscribe(
-      (reservations: Reservation[]) => {
-        this.reservations = reservations;
-        console.log(reservations)
-      },
-      (error) => {
-        console.error('Error loading reservations', error);
-      }
-    );
-  }
   cancelReservation() {
     this.showReservationForm = false;
     this.selectedEventId = null;
     this.numberOfTickets = 1;
+  }
+
+  loadAllContacts() {
+    this.contactService.getAllContacts().subscribe(
+      (contacts: Contact[]) => {
+        this.contacts = contacts;
+      },
+      error => {
+        console.error('Erreur lors du chargement des contacts', error);
+      }
+    );
+  }
+
+
+
+
+
+  deleteContact(id: number) {
+    this.contactService.deleteContact(id).subscribe(
+      () => {
+        this.contacts = this.contacts.filter(contact => contact.id !== id);
+      },
+      error => {
+        console.error('Erreur lors de la suppression du contact', error);
+      }
+    );
   }
 }

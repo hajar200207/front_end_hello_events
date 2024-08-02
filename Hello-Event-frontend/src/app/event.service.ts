@@ -1,137 +1,154 @@
-/*import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {catchError, Observable, throwError} from 'rxjs';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class EventService {
-  private apiUrl = 'http://localhost:8082/api/events';
-
-  constructor(private http: HttpClient) { }
-
-  getEvents(): Observable<any> {
-    return this.http.get(`${this.apiUrl}`).pipe(
-      catchError(error => {
-        console.error('Erreur brute:', error);
-        return throwError('Erreur lors du chargement des événements. Veuillez réessayer.');
-      })
-    );
-  }
-
-  searchEvents(date: string, location: string, keyword: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/search`, { params: { date, location, keyword } });
-  }
-
-  getEventDetails(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
-  }
-
-  bookEvent(eventId: number, numberOfTickets: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${eventId}/book`, { numberOfTickets });
-  }
 
 
-  getAboutInfo(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/about`);
-  }
 
-  submitContact(contactData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/contact`, contactData);
-  }
-  saveHomePageEvents(selectedEvents: any[]): Observable<any> {
-    return this.http.post(`${this.apiUrl}/home-events`, selectedEvents);
-  }
-  getUserEvents(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
-  }
-}
-*/
+
+
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
-import {Reservation} from "./reservation.model";
+import { Reservation } from './reservation.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
-
   private apiUrl = 'http://localhost:8082/api/events';
-  private reservationApi = 'http://localhost:8082/api';
+  private reservationApi = 'http://localhost:8082/api/reservations';
 
-  constructor(private http: HttpClient, private authService: AuthService) { } // Corrected injection
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getEvents(): Observable<any> {
-    return this.http.get(`${this.apiUrl}`).pipe(
-      catchError(error => {
-        console.error('Erreur brute:', error);
+  // Get all events
+  getEvents(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erreur lors du chargement des événements:', error);
         return throwError('Erreur lors du chargement des événements. Veuillez réessayer.');
       })
     );
   }
 
-  searchEvents(date: string, location: string, keyword: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/search`, { params: { date, location, keyword } });
-  }
-
-  getEventDetails(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
-  }
-
-
- /* createReservation(eventId: number, numberOfTickets: number): Observable<any> {
-    const token = this.authService.getToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    const body = {
-      eventId: eventId,
-      numberOfTickets: numberOfTickets
-    };
-
-    return this.http.post<any>(`${this.reservationApi}/reservation`, body, { headers, responseType: 'json' }).pipe(
-      catchError(error => {
-        console.error('Error making reservation:', error);
-        return throwError('Error making reservation. Please try again.');
+  // Search for events with filters
+  searchEvents(date: string, location: string, keyword: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/search`, { params: { date, location, keyword } }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erreur lors de la recherche des événements:', error);
+        return throwError('Erreur lors de la recherche des événements. Veuillez réessayer.');
       })
     );
   }
-  getUserReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.reservationApi}/reservations`);
+
+  // Get event details by ID
+  getEventDetails(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erreur lors du chargement des détails de l’événement:', error);
+        return throwError('Erreur lors du chargement des détails de l’événement. Veuillez réessayer.');
+      })
+    );
   }
-*/
-  createReservation(reservation:Reservation): Observable<Reservation> {
+
+  // Create a new reservation
+  createReservation(reservation: { eventId: number | null; numberOfTickets: number }): Observable<Reservation> {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     return this.http.post<Reservation>(`${this.reservationApi}/reservation`, reservation, { headers });
   }
 
+
+  // Get reservations for the logged-in user
   getUserReservations(): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(`${this.reservationApi}/reservations`).pipe(
+    return this.http.get<Reservation[]>(`${this.reservationApi}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.error('Error loading reservations:', error);
-        return throwError('Error loading reservations. Please try again.');
+        console.error('Erreur lors du chargement des réservations:', error);
+        return throwError('Erreur lors du chargement des réservations. Veuillez réessayer.');
       })
     );
   }
 
-
-
+  // Get information about the application or company
   getAboutInfo(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/about`);
+    return this.http.get<any>(`${this.apiUrl}/about`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erreur lors du chargement des informations:', error);
+        return throwError('Erreur lors du chargement des informations. Veuillez réessayer.');
+      })
+    );
   }
 
+  // Submit a contact form
   submitContact(contactData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/contact`, contactData);
+    return this.http.post<any>(`${this.apiUrl}/contact`, contactData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erreur lors de l’envoi du contact:', error);
+        return throwError('Erreur lors de l’envoi du contact. Veuillez réessayer.');
+      })
+    );
   }
 
+  // Save selected events for the home page
   saveHomePageEvents(selectedEvents: any[]): Observable<any> {
-    return this.http.post(`${this.apiUrl}/home-events`, selectedEvents);
+    return this.http.post<any>(`${this.apiUrl}/home-events`, selectedEvents).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erreur lors de la sauvegarde des événements:', error);
+        return throwError('Erreur lors de la sauvegarde des événements. Veuillez réessayer.');
+      })
+    );
   }
 
+  // Get events associated with a specific user
   getUserEvents(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erreur lors du chargement des événements de l’utilisateur:', error);
+        return throwError('Erreur lors du chargement des événements de l’utilisateur. Veuillez réessayer.');
+      })
+    );
   }
+
+  // Create a new event
+  createEvent(event: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}`, event).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Erreur lors de la création de l’événement:', error);
+        return throwError('Erreur lors de la création de l’événement. Veuillez réessayer.');
+      })
+    );
+  }
+  updateEvent(id: number, event: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, event).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Nouvelle méthode de suppression d'événement
+
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('An error occurred:', error);
+    return throwError('Something went wrong. Please try again later.');
+  }
+  deleteEvent(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
