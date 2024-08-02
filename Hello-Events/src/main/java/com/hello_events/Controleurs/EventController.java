@@ -36,12 +36,16 @@ public class EventController {
         Event updatedEvent = eventService.updateEvent(id, eventDetails);
         return ResponseEntity.ok(updatedEvent);
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
+
+
+
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getEventDetails(@PathVariable Long id) {
