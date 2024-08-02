@@ -1,6 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import {HttpErrorResponse} from "@angular/common/http";
+import { HttpErrorResponse } from "@angular/common/http";
+import { EventService } from '../event.service';
+
+interface Event {
+  id: number;
+  name: string;
+  date: string | Date;
+  location: string;
+  isUserEvent?: boolean;
+  description: string;
+}
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,13 +20,16 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class AdminDashboardComponent implements OnInit {
   userInfo: any;
   users: any[] = [];
+  events: Event[] = [];
   currentView: string = 'profile';
+  error: string = ''; // Declare error property
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private eventService: EventService) { }
 
   ngOnInit() {
     this.loadAdminInfo();
     this.loadUsers();
+    this.loadEvents();  // Ensure this is the correct method name
   }
 
   loadAdminInfo() {
@@ -43,6 +56,7 @@ export class AdminDashboardComponent implements OnInit {
       }
     );
   }
+
   updateUser(user: any) {
     this.authService.updateUser(user).subscribe(
       updatedUser => {
@@ -54,6 +68,7 @@ export class AdminDashboardComponent implements OnInit {
       }
     );
   }
+
   deleteUser(id: number) {
     this.authService.deleteUser(id).subscribe(
       () => {
@@ -65,7 +80,34 @@ export class AdminDashboardComponent implements OnInit {
       }
     );
   }
+
   changeView(view: string) {
     this.currentView = view;
+  }
+
+  loadEvents() {
+    this.eventService.getEvents().subscribe(
+      events => {
+        this.events = events;
+      },
+      error => {
+        console.error('Erreur lors du chargement des événements', error);
+      }
+    );
+  }
+
+  deleteEvent(id: number) {
+    if (confirm('Are you sure you want to delete this event?')) {
+      this.eventService.deleteEvent(id).subscribe(
+        () => {
+          console.log('Event deleted successfully');
+          this.loadEvents();  // Call the correct method to reload events
+        },
+        (error) => {
+          console.error('Error deleting event', error);
+          this.error = 'Unable to delete event.';  // Store the error message
+        }
+      );
+    }
   }
 }
