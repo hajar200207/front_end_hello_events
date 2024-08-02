@@ -20,7 +20,7 @@ body {
 }
 
 .btn-danger {
-  background-color: #ff5722; /* Red-orange button color */
+  background-color: rgba(255, 87, 34, 0.8); /* Red-orange button color */
   border-color: #ff5722;
 }
 
