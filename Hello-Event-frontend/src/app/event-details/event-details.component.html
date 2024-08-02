@@ -1,26 +1,16 @@
+<p>event-details works!</p>
 <div *ngIf="event">
   <h2>{{ event.name }}</h2>
-  <div *ngIf="!editMode">
-    <p>Date: {{ event.dateTime | date:'medium' }}</p>
-    <p>Location: {{ event.location }}</p>
-    <p>Description: {{ event.description }}</p>
-    <button (click)="toggleEditMode()">Edit</button>
-    <button (click)="deleteEvent()">Delete</button>
-  </div>
-  <div *ngIf="editMode">
-    <form (ngSubmit)="updateEvent()">
-      <input [(ngModel)]="event.name" name="name" required>
-      <input [(ngModel)]="event.dateTime" type="datetime-local" name="dateTime" required>
-      <input [(ngModel)]="event.location" name="location" required>
-      <textarea [(ngModel)]="event.description" name="description" required></textarea>
-      <button type="submit">Save</button>
-      <button type="button" (click)="toggleEditMode()">Cancel</button>
-    </form>
-  </div>
+  <p>Date: {{ event.dateTime | date:'dd/MM/yyyy HH:mm' }}</p>
+  <p>Location: {{ event.location }}</p>
+  <p>Description: {{ event.description }}</p>
 </div>
+
 <div *ngIf="error">
   <p>{{ error }}</p>
 </div>
+
 <div *ngIf="!event && !error">
   <p>Loading event details...</p>
 </div>
+

@@ -43,6 +43,9 @@
     <li><a (click)="changeView('home')">Gestion Accueil</a></li>
     <li><a (click)="changeView('events')">Mes Événements</a></li>
     <li><a (click)="changeView('search')">Recherche d'événements</a></li>
+    <li><a><button (click)="changeView('contacts')">Contacts</button></a></li>
+    <li> <a routerLink="/about">À Propos</a></li>
+
 
   </ul>
 </nav>
@@ -74,16 +77,19 @@
       <p>Rôle : {{ userInfo.role }}</p>
       <p>Email : {{ userInfo.email }}</p>
 
-      <h4>Mettre à jour les informations</h4>
-      <form (ngSubmit)="updateUser()">
-        <label for="username">Nom d'utilisateur:</label>
-        <input id="username" [(ngModel)]="updatedUserInfo.username" name="username" required>
+      <div *ngIf="userInfo">
+        <h4>Mettre à jour les informations</h4>
+        <form (ngSubmit)="updateUser()">
+          <label for="username">Nom d'utilisateur:</label>
+          <input id="username" [(ngModel)]="updatedUserInfo.username" name="username" required>
 
-        <label for="email">Email:</label>
-        <input id="email" [(ngModel)]="updatedUserInfo.email" name="email" required>
+          <label for="email">Email:</label>
+          <input id="email" [(ngModel)]="updatedUserInfo.email" name="email" required>
 
-        <button type="submit">Mettre à jour</button>
-      </form>
+          <button type="submit">Mettre à jour</button>
+        </form>
+      </div>
+
     </div>
   </div>
 
@@ -106,6 +112,9 @@
         {{ event.name }} - {{ event.date | date:'dd/MM/yyyy HH:mm' }} - {{ event.location }}
       </li>
     </ul>
+  </div>
+  <div *ngIf="currentView === 'contacts'">
+    <app-contact></app-contact>
   </div>
 </div>
 </div>

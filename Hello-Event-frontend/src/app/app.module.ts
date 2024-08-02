@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // Importation de ReactiveFormsModule
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterLink, RouterOutlet } from "@angular/router";  // Note: RouterLink et RouterOutlet ne sont pas importés directement ici
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -16,13 +15,16 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './auth.interceptor';
+import {RouterLink, RouterOutlet} from "@angular/router";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EventSearchComponent } from './event-search/event-search.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
-import { EventCreateComponent } from './create-event/create-event.component';  // Assurez-vous que le chemin est correct
+import {ContactService} from "./contact.service";
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     LoginComponent,
@@ -33,23 +35,25 @@ import { EventCreateComponent } from './create-event/create-event.component';  /
     EventSearchComponent,
     EventDetailsComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,
+    RouterOutlet,
+    RouterLink,
     AppRoutingModule,
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
     BrowserAnimationsModule,
-    EventCreateComponent
+
+
+
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
+  providers: [ContactService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ]
 })
 export class AppModule { }

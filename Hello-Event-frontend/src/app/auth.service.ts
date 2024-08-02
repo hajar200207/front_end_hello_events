@@ -34,7 +34,7 @@ export class AuthService {
       })
     );
   }
-  getUserInfo(username: string): Observable<any> {
+ getUserInfo(username: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${username}`);
   }
 
@@ -68,14 +68,12 @@ export class AuthService {
   deleteUser(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+
+  updateUser(user: Partial<User>, options?: { headers: HttpHeaders }): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/update`, user, options);
   }
 
-  updateUser(user: User): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.put(`${this.apiUrl}/update`, user, { headers });
-  }
+
 
 }
