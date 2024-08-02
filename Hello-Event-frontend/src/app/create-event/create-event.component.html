@@ -1,35 +1,20 @@
-<div class="event-create">
-  <h2>Créer un Événement</h2>
-  <form (ngSubmit)="createEvent()" #eventForm="ngForm">
-    <div class="form-group">
-      <label for="name">Nom:</label>
-      <input id="name" [(ngModel)]="event.name" name="name" required #name="ngModel" placeholder="Entrez le nom de l'événement">
-      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error">
-        <div *ngIf="name.errors?.['required']">Le nom est requis.</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="dateTime">Date et Heure:</label>
-      <input id="dateTime" [(ngModel)]="event.dateTime" name="dateTime" type="datetime-local" required #dateTime="ngModel">
-      <div *ngIf="dateTime.invalid && (dateTime.dirty || dateTime.touched)" class="error">
-        <div *ngIf="dateTime.errors?.['required']">La date et l'heure sont requis.</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="location">Lieu:</label>
-      <input id="location" [(ngModel)]="event.location" name="location" required #location="ngModel" placeholder="Entrez le lieu de l'événement">
-      <div *ngIf="location.invalid && (location.dirty || location.touched)" class="error">
-        <div *ngIf="location.errors?.['required']">Le lieu est requis.</div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="description">Description:</label>
-      <textarea id="description" [(ngModel)]="event.description" name="description" placeholder="Entrez une description de l'événement"></textarea>
-    </div>
-
-    <button type="submit" [disabled]="eventForm.invalid">Créer</button>
-  </form>
-</div>
+<h2>Create New Event</h2>
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Event Name:</label>
+    <input id="name" type="text" formControlName="name" required>
+  </div>
+  <div>
+    <label for="dateTime">Date and Time:</label>
+    <input id="dateTime" type="datetime-local" formControlName="dateTime" required>
+  </div>
+  <div>
+    <label for="location">Location:</label>
+    <input id="location" type="text" formControlName="location" required>
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description" required></textarea>
+  </div>
+  <button type="submit" [disabled]="!eventForm.valid">Create Event</button>
+</form>

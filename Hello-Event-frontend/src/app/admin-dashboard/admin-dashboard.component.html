@@ -1,4 +1,11 @@
 <p>admin-dashboard works!</p>
+<div *ngFor="let event of events">
+  <h4>{{ event.name }}</h4>
+  <p>Date: {{ event.date | date:'dd/MM/yyyy HH:mm' }}</p>
+  <p>Lieu: {{ event.location }}</p>
+  <a [routerLink]="['/event', event.id]">Voir les détails</a>
+  <button (click)="deleteEvent(event.id)">Delete</button>
+</div>
 <h2>Informations de l'administrateur</h2>
 <div *ngIf="userInfo">
   <p>Nom d'utilisateur : {{ userInfo.username }}</p>
@@ -6,7 +13,7 @@
   <p>Rôle : {{ userInfo.role }}</p>
   <button (click)="updateUser(userInfo)">Modifier</button>
 </div>
-
+<a [routerLink]="['/create-event']">Create New Event</a>
 <h2>Gestion des utilisateurs</h2>
 <table>
   <thead>

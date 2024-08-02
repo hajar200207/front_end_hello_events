@@ -5,10 +5,11 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
-import {ContactComponent} from "./contact/contact.component";
-import {AboutComponent} from "./about/about.component";
-import {EventDetailsComponent} from "./event-details/event-details.component";
-import {EventSearchComponent} from "./event-search/event-search.component";
+import { ContactComponent } from "./contact/contact.component";
+import { AboutComponent } from "./about/about.component";
+import { EventDetailsComponent } from "./event-details/event-details.component";
+import { EventSearchComponent } from "./event-search/event-search.component";
+import { EventCreateComponent } from './create-event/create-event.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'event/:id', component: EventDetailsComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'create-event', component: EventCreateComponent },
 ];
 
 @NgModule({
