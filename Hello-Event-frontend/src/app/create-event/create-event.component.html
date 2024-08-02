@@ -1,20 +1,59 @@
-<h2>Create New Event</h2>
-<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="name">Event Name:</label>
-    <input id="name" type="text" formControlName="name" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Event</title>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-warning">
+  <a class="navbar-brand" href="#">Event Manager</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Events</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Contacts</a>
+      </li>
+    </ul>
   </div>
-  <div>
-    <label for="dateTime">Date and Time:</label>
-    <input id="dateTime" type="datetime-local" formControlName="dateTime" required>
-  </div>
-  <div>
-    <label for="location">Location:</label>
-    <input id="location" type="text" formControlName="location" required>
-  </div>
-  <div>
-    <label for="description">Description:</label>
-    <textarea id="description" formControlName="description" required></textarea>
-  </div>
-  <button type="submit" [disabled]="!eventForm.valid">Create Event</button>
-</form>
+</nav>
+
+<div class="container mt-5">
+  <h2>Create New Event</h2>
+  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Event Name:</label>
+      <input id="name" type="text" formControlName="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="dateTime">Date and Time:</label>
+      <input id="dateTime" type="datetime-local" formControlName="dateTime" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <input id="location" type="text" formControlName="location" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!eventForm.valid">Create Event</button>
+  </form>
+</div>
+
+<!-- Footer -->
+<footer class="bg-warning text-center text-white mt-5 p-4">
+  <p>&copy; 2024 Event Manager. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

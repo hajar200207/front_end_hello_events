@@ -1,17 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EventService } from '../event.service';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
   styleUrls: ['./create-event.component.scss']
 })
-export class EventCreateComponent implements OnInit {
+export class CreateEventComponent implements OnInit {
   eventForm!: FormGroup;
 
   constructor(

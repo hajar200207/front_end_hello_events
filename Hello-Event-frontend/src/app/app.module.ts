@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -22,10 +23,14 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import {ContactService} from "./contact.service";
+import { CreateEventComponent } from './create-event/create-event.component';
+
+
 
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
+    CreateEventComponent,
     AppComponent,
     LoginComponent,
     RegisterComponent,
@@ -38,6 +43,7 @@ import {ContactService} from "./contact.service";
     ContactComponent,
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
@@ -53,6 +59,7 @@ import {ContactService} from "./contact.service";
 
   ],
   providers: [ContactService,
+    
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ]
 })
