@@ -1,0 +1,54 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+:root {
+  --gold: #D4AF37;
+  --light-beige: #F5F5DC;
+  --dark-gray: #333333;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--light-beige);
+  color: var(--dark-gray);
+}
+.main-content {
+  padding-top: 64px;
+  padding-bottom: 200px; // Hauteur estimée du footer, ajustez selon vos besoins
+  min-height: 100vh; // Assurez-vous que le contenu remplit au moins la hauteur de la fenêtre
+}
+.sliding-images-container {
+  width: 100%;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.sliding-images {
+  display: flex;
+  width: calc(250px * 10); // 5 images * 2 pour l'aller-retour
+  animation: slideBackAndForth 20s linear infinite;
+}
+
+.sliding-images img {
+  width: 250px;
+  height: 150px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+@keyframes slideBackAndForth {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(calc(-250px * 5)); // Déplace de 5 images vers la gauche
+  }
+}
+
+// Pause de l'animation au survol
+.sliding-images-container:hover .sliding-images {
+  animation-play-state: paused;
+}
+.sliding-images {
+  animation: slideBackAndForth 20s linear infinite;
+  will-change: transform;
+}

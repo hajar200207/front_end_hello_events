@@ -1,10 +1,11 @@
+// user-dashboard.component.ts
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { EventService } from '../event.service';
 import { Reservation } from '../reservation.model';
 import { ContactService } from '../contact.service';
 import { Contact, ContactStatus } from '../contact.model';
-import {HttpHeaders} from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
 
 interface User {
   id: number;
@@ -21,7 +22,11 @@ interface Event {
   isUserEvent?: boolean;
   description: string;
 }
-
+interface Link {
+  label: string;
+  view: string;
+  icon: string;
+}
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
@@ -43,6 +48,13 @@ export class UserDashboardComponent implements OnInit {
   contacts: Contact[] = [];
   newContact: Contact = { id: 0, name: '', email: '', subject: '', message: '', submissionTime: new Date(), status: ContactStatus.NEW };
 
+  navLinks: Link[] = [
+    { label: 'Profil', view: 'profile', icon: 'person' },
+    { label: 'Événements', view: 'events', icon: 'event' },
+    { label: 'Recherche', view: 'search', icon: 'search' },
+    { label: 'Contacts', view: 'contacts', icon: 'contacts' },
+    { label: 'Réservations', view: 'reservations', icon: 'reservation' }
+  ];
   constructor(
     private authService: AuthService,
     private eventService: EventService,
@@ -94,10 +106,6 @@ export class UserDashboardComponent implements OnInit {
       }
     );
   }
-
-
-
-
 
   changeView(view: string) {
     this.currentView = view;
@@ -202,10 +210,6 @@ export class UserDashboardComponent implements OnInit {
     );
   }
 
-
-
-
-
   deleteContact(id: number) {
     this.contactService.deleteContact(id).subscribe(
       () => {
@@ -216,4 +220,21 @@ export class UserDashboardComponent implements OnInit {
       }
     );
   }
-}
+  viewEventDetails(event: Event) {
+    alert(`Nom: ${event.name}\nDate: ${event.date}\nLieu: ${event.location}\nDescription: ${event.description}`);
+  }
+  createContact(): void {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    this.contactService.createContact(this.newContact, { headers }).subscribe(
+      contact => {
+        this.contacts.push(contact);
+        this.newContact = { name: '', email: '', subject: '', message: '' };
+      },
+      error => {
+        console.error('Error creating contact', error);
+      }
+    );
+  }}

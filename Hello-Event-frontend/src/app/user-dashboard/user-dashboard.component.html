@@ -1,120 +1,180 @@
-
 <h2>Tableau de bord utilisateur</h2>
 <div class="container">
-  <h1>Événements à venir</h1>
-  <mat-grid-list cols="3" rowHeight="350px">
-    <mat-grid-tile *ngFor="let event of events">
-      <mat-card class="event-card">
-        <mat-card-header>
-          <mat-card-title>{{event.name}}</mat-card-title>
-          <mat-card-subtitle>{{event.date | date:'dd/MM/yyyy HH:mm'}}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>{{event.description}}</p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button color="primary" ><a [routerLink]="['/event', event.id]">Voir les détails</a></button>
-          <button mat-button color="accent" (click)="bookEvent(event.id)">Réserver</button>        </mat-card-actions>
+  <nav class="vertical-navbar">
+    <a *ngFor="let link of navLinks" (click)="changeView(link.view)">
+      <span>{{ link.icon }}</span>
+      <span class="vertical-text">{{ link.label }}</span>
+    </a>
+  </nav>
+
+  <div class="content">
+    <div *ngIf="currentView === 'profile'">
+      <mat-card>
+        <h3>Mon Profil</h3>
+        <div *ngIf="userInfo">
+          <p>Nom d'utilisateur : {{ userInfo.username }}</p>
+          <p>Email : {{ userInfo.email }}</p>
+          <p>Rôle : {{ userInfo.role }}</p>
+          <h4>Mettre à jour les informations</h4>
+          <form (ngSubmit)="updateUser()">
+            <mat-form-field>
+              <mat-label>Nom d'utilisateur</mat-label>
+              <input matInput [(ngModel)]="updatedUserInfo.username" name="username" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput [(ngModel)]="updatedUserInfo.email" name="email" required>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Mettre à jour</button>
+          </form>
+        </div>
       </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-  <!-- Reservation Form -->
-  <div *ngIf="showReservationForm" class="reservation-form">
-    <h3>Réserver l'événement</h3>
-    <form (ngSubmit)="reserveEvent()">
-      <label for="numberOfTickets">Nombre de billets:</label>
-      <input id="numberOfTickets" [(ngModel)]="numberOfTickets" name="numberOfTickets" type="number" min="1" required>
-
-      <button type="submit">Réserver</button>
-      <button type="button" (click)="cancelReservation()">Annuler</button>
-    </form>
-  </div>
-  <div>
-    <h3>Mes Réservations</h3>
-    <ul>
-      <li *ngFor="let reservation of reservations">
-        Événement: {{ reservation.event.name }} - Nombre de billets: {{ reservation.numberOfTickets }} - Dernière mise à jour: {{ reservation.lastUpdated | date:'dd/MM/yyyy HH:mm' }}
-      </li>
-    </ul>
-  </div>
-  <nav>
-  <ul>
-    <li><a (click)="changeView('profile')">Profil</a></li>
-    <li><a (click)="changeView('home')">Gestion Accueil</a></li>
-    <li><a (click)="changeView('events')">Mes Événements</a></li>
-    <li><a (click)="changeView('search')">Recherche d'événements</a></li>
-    <li><a><button (click)="changeView('contacts')">Contacts</button></a></li>
-    <li> <a routerLink="/about">À Propos</a></li>
-
-
-  </ul>
-</nav>
-<div [ngSwitch]="currentView">
-  <!-- Gardez les autres cas de switch existants -->
-
-  <div *ngSwitchCase="'search'">
-    <h3>Recherche d'événements</h3>
-    <form (ngSubmit)="searchEvents()">
-      <input [(ngModel)]="date" name="date" type="date" placeholder="Date">
-      <input [(ngModel)]="location" name="location" type="text" placeholder="Lieu">
-      <input [(ngModel)]="keyword" name="keyword" type="text" placeholder="Mot-clé">
-      <button type="submit">Rechercher</button>
-    </form>
-
-    <div *ngFor="let event of events">
-      <h4>{{ event.name }}</h4>
-      <p>Date: {{ event.date | date:'dd/MM/yyyy HH:mm' }}</p>
-      <p>Lieu: {{ event.location }}</p>
-      <a [routerLink]="['/event', event.id]">Voir les détails</a>
     </div>
-  </div>
-</div>
-<div [ngSwitch]="currentView">
-  <div *ngSwitchCase="'profile'">
-    <h3>Mon Profil</h3>
-    <div *ngIf="userInfo">
-      <p>Nom d'utilisateur : {{ userInfo.username }}</p>
-      <p>Rôle : {{ userInfo.role }}</p>
-      <p>Email : {{ userInfo.email }}</p>
 
-      <div *ngIf="userInfo">
-        <h4>Mettre à jour les informations</h4>
-        <form (ngSubmit)="updateUser()">
-          <label for="username">Nom d'utilisateur:</label>
-          <input id="username" [(ngModel)]="updatedUserInfo.username" name="username" required>
+    <div *ngIf="currentView === 'events'">
+      <mat-card>
+        <h3>Mes Événements</h3>
+        <table mat-table [dataSource]="events" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Nom </th>
+            <td mat-cell *matCellDef="let event"> {{event.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let event"> {{event.date | date:'dd/MM/yyyy HH:mm'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef> Lieu </th>
+            <td mat-cell *matCellDef="let event"> {{event.location}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let event"> {{event.description}} </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let event">
+              <button mat-button color="primary" (click)="viewEventDetails(event)">Voir Détails</button>
+              <button mat-button color="accent" (click)="bookEvent(event.id)">Réserver</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['name', 'date', 'location', 'description', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'date', 'location', 'description', 'actions'];"></tr>
+        </table>
+      </mat-card>
+    </div>
 
-          <label for="email">Email:</label>
-          <input id="email" [(ngModel)]="updatedUserInfo.email" name="email" required>
-
-          <button type="submit">Mettre à jour</button>
+    <div *ngIf="currentView === 'search'">
+      <mat-card>
+        <h3>Recherche d'Événements</h3>
+        <form (ngSubmit)="searchEvents()">
+          <mat-form-field>
+            <mat-label>Date</mat-label>
+            <input matInput [(ngModel)]="date" name="date" type="date">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Lieu</mat-label>
+            <input matInput [(ngModel)]="location" name="location">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Mot-clé</mat-label>
+            <input matInput [(ngModel)]="keyword" name="keyword">
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit">Rechercher</button>
         </form>
-      </div>
+        <table mat-table [dataSource]="events" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Nom </th>
+            <td mat-cell *matCellDef="let event"> {{event.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let event"> {{event.date | date:'dd/MM/yyyy HH:mm'}} </td>
+          </ng-container>
+          <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef> Lieu </th>
+            <td mat-cell *matCellDef="let event"> {{event.location}} </td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let event"> {{event.description}} </td>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let event">
+              <button mat-button color="primary" (click)="viewEventDetails(event)">Voir Détails</button>
+              <button mat-button color="accent" (click)="bookEvent(event.id)">Réserver</button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['name', 'date', 'location', 'description', 'actions']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'date', 'location', 'description', 'actions'];"></tr>
+        </table>
+      </mat-card>
+    </div>
 
+    <!-- user-dashboard.component.html -->
+    <div *ngIf="currentView === 'contacts'" class="contact-form">
+      <h2>Manage Contacts</h2>
+      <form (ngSubmit)="createContact()">
+        <mat-form-field appearance="outline">
+          <mat-label>Name</mat-label>
+          <input matInput [(ngModel)]="newContact.name" name="name" required>
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="newContact.email" name="email" required>
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Subject</mat-label>
+          <input matInput [(ngModel)]="newContact.subject" name="subject" required>
+          <mat-icon matSuffix>subject</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Message</mat-label>
+          <textarea matInput [(ngModel)]="newContact.message" name="message" required></textarea>
+          <mat-icon matSuffix>message</mat-icon>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Create Contact</button>
+      </form>
+    </div>
+
+
+    <div *ngIf="currentView === 'reservations'">
+      <mat-card>
+        <h3>Mes Réservations</h3>
+        <table mat-table [dataSource]="reservations" class="mat-elevation-z8">
+          <ng-container matColumnDef="eventName">
+            <th mat-header-cell *matHeaderCellDef> Événement </th>
+            <td mat-cell *matCellDef="let reservation"> {{reservation.event.name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="numberOfTickets">
+            <th mat-header-cell *matHeaderCellDef> Nombre de Billets </th>
+            <td mat-cell *matCellDef="let reservation"> {{reservation.numberOfTickets}} </td>
+          </ng-container>
+          <ng-container matColumnDef="reservationDate">
+            <th mat-header-cell *matHeaderCellDef> Date de Réservation </th>
+            <td mat-cell *matCellDef="let reservation"> {{reservation.lastUpdated | date:'dd/MM/yyyy HH:mm' }} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['eventName', 'numberOfTickets', 'reservationDate']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['eventName', 'numberOfTickets', 'reservationDate'];"></tr>
+        </table>
+      </mat-card>
+    </div>
+
+    <div *ngIf="showReservationForm">
+      <mat-card>
+        <h3>Réserver un événement</h3>
+        <form (ngSubmit)="reserveEvent()">
+          <mat-form-field>
+            <mat-label>Nombre de Billets</mat-label>
+            <input matInput [(ngModel)]="numberOfTickets" name="numberOfTickets" type="number" required>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit">Réserver</button>
+          <button mat-button color="warn" (click)="cancelReservation()">Annuler</button>
+        </form>
+      </mat-card>
     </div>
   </div>
-
-  <div *ngSwitchCase="'home'">
-    <h3>Gestion de la Page d'Accueil</h3>
-    <p>Sélectionnez les événements à afficher sur la page d'accueil :</p>
-    <ul>
-      <li *ngFor="let event of events">
-        <input type="checkbox" (change)="toggleEventSelection(event)" [checked]="selectedEvents.includes(event)">
-        {{ event.name }} - {{ event.date | date }}
-      </li>
-    </ul>
-    <button (click)="saveHomePageEvents()">Enregistrer les changements</button>
-  </div>
-  <div *ngSwitchCase="'events'">
-    <h3>Mes Événements</h3>
-    <ul>
-      <li *ngFor="let event of events">
-        <span *ngIf="event.isUserEvent" style="color: green;">(Votre événement)</span>
-        {{ event.name }} - {{ event.date | date:'dd/MM/yyyy HH:mm' }} - {{ event.location }}
-      </li>
-    </ul>
-  </div>
-  <div *ngIf="currentView === 'contacts'">
-    <app-contact></app-contact>
-  </div>
-</div>
 </div>

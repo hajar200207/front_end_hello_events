@@ -1,18 +1,176 @@
-h1, h2 {
-  color: #333;
+/* user-dashboard.component.css */
+.container {
+  margin: 20px;
 }
 
-button {
+.mat-tab-nav-bar {
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  background-color: #ffffff; /* White background to ensure visibility */
+  z-index: 1; /* Ensures the navbar stays on top */
+  padding: 10px 0; /* Adds some padding for better spacing */
+}
+
+.dashboard-card, .reservation-form {
+  margin: 20px 0;
+}
+
+.table {
+  width: 100%;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+mat-card {
+  background-color: beige;
+  color: black;
+}
+
+mat-card-title {
+  color: gold;
+}
+
+button.mat-button {
+  color: gold;
+}
+
+button.mat-raised-button {
+  background-color: gold;
+  color: beige;
+}
+
+button.mat-raised-button:hover {
+  background-color: darkgoldenrod;
+  color: beige;
+}
+
+button.mat-raised-button[disabled] {
+  background-color: #ccc;
+}
+
+button.mat-button[disabled] {
+  color: #ccc;
+}
+
+input.mat-input-element, textarea.mat-input-element {
+  background-color: beige;
+  color: black;
+}
+
+.mat-form-field-label {
+  color: gold !important;
+}
+.vertical-nav {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.content-container {
+  margin-left: 220px;
+  padding: 20px;
+}
+
+mat-tab-link {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+}
+
+mat-tab-link:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+mat-icon {
   margin-right: 10px;
 }
 
-div {
-  margin: 10px 0;
+.event-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.reservation-form {
-  margin-top: 20px;
+
+button a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button a:hover {
+  text-decoration: underline;
+}
+.container {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.vertical-navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 20px;
+  background-color: gold;
+  color: beige;
+}
+
+.vertical-navbar a {
+  color: beige;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.vertical-navbar a:hover {
+  background-color: beige;
+  color: gold;
+}
+
+.content {
+  flex: 1;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: beige;
+  color: gold;
 }
+/* user-dashboard.component.css */
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+}
+
