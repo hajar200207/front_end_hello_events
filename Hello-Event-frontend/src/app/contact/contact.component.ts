@@ -29,6 +29,10 @@ export class ContactComponent implements OnInit {
     );
   }
 
+
+
+
+  //
   createContact(): void {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
@@ -38,12 +42,21 @@ export class ContactComponent implements OnInit {
       contact => {
         this.contacts.push(contact);
         this.newContact = { name: '', email: '', subject: '', message: '' };
+
+        // Ajouter une animation au nouveau contact
+        setTimeout(() => {
+          const contactElement = document.querySelector(`.card:last-child`);
+          if (contactElement) {
+            contactElement.classList.add('animate__animated', 'animate__fadeIn');
+          }
+        }, 0);
       },
       error => {
         console.error('Error creating contact', error);
       }
     );
   }
+///////////////////////////////////
 
 
 

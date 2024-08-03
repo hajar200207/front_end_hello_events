@@ -1,0 +1,39 @@
+.container {
+  background-color: #fff8e1; /* Beige */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #fdd835; /* Asfar */
+}
+
+.card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.btn-warning {
+  background-color: #fdd835; /* Asfar */
+  border-color: #fdd835;
+
+  &:hover {
+    background-color: darken(#fdd835, 10%);
+    border-color: darken(#fdd835, 10%);
+  }
+}
+
+.btn-outline-primary {
+  color: #fdd835;
+  border-color: #fdd835;
+
+  &:hover {
+    background-color: #fdd835;
+    color: #fff;
+  }
+}
