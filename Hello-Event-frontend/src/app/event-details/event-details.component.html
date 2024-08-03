@@ -1,27 +1,53 @@
-<div *ngIf="event">
-  <h2>{{ event.name }}</h2>
-  <div *ngIf="!editMode">
-    <p>Date: {{ event.dateTime | date:'medium' }}</p>
-    <p>Location: {{ event.location }}</p>
-    <p>Description: {{ event.description }}</p>
-    <button (click)="toggleEditMode()">Edit</button>
-    <button (click)="deleteEvent()">Delete</button>
+<div *ngIf="event" class="container mt-4">
+  <div class="card border-light mb-3">
+    <div class="card-header bg-warning text-white">
+      <h2>{{ event.name }}</h2>
+    </div>
+    <div class="card-body">
+      <div *ngIf="!editMode">
+        <p>Date: {{ event.dateTime | date:'medium' }}</p>
+        <p>Location: {{ event.location }}</p>
+        <p>Description: {{ event.description }}</p>
+        <button class="btn btn-warning" (click)="toggleEditMode()">
+          <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button class="btn btn-danger" (click)="deleteEvent()">
+          <i class="bi bi-trash"></i> Delete
+        </button>
+      </div>
+      <div *ngIf="editMode">
+        <form (ngSubmit)="updateEvent()">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input [(ngModel)]="event.name" name="name" id="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="dateTime" class="form-label">Date and Time</label>
+            <input [(ngModel)]="event.dateTime" type="datetime-local" name="dateTime" id="dateTime" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input [(ngModel)]="event.location" name="location" id="location" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea [(ngModel)]="event.description" name="description" id="description" class="form-control" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-circle"></i> Save
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="toggleEditMode()">
+            <i class="bi bi-x-circle"></i> Cancel
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
-  <div *ngIf="editMode">
-    <form (ngSubmit)="updateEvent()">
-      <input [(ngModel)]="event.name" name="name" required>
-      <input [(ngModel)]="event.dateTime" type="datetime-local" name="dateTime" required>
-      <input [(ngModel)]="event.location" name="location" required>
-      <textarea [(ngModel)]="event.description" name="description" required></textarea>
-      <button type="submit">Save</button>
-      <button type="button" (click)="toggleEditMode()">Cancel</button>
-    </form>
-  </div>
+</div>
 
+<div *ngIf="error" class="alert alert-danger mt-4">
+  {{ error }}
 </div>
-<div *ngIf="error">
-  <p>{{ error }}</p>
-</div>
-<div *ngIf="!event && !error">
-  <p>Loading event details...</p>
+<div *ngIf="!event && !error" class="alert alert-info mt-4">
+  Loading event details...
 </div>
