@@ -1,8 +1,53 @@
+/* Container */
 .container {
+  margin: 20px auto;
   padding: 20px;
+  max-width: 1200px;
 }
 
+/* Title */
+h1 {
+  color: #B8860B; /* Gold color */
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Card styles */
 .event-card {
-  max-width: 350px;
-  margin: 10px;
+  background-color: #F5F5DC; /* Beige color */
+  border: 1px solid #B8860B; /* Gold border */
+  transition: transform 0.3s ease-in-out;
+}
+
+.event-card:hover {
+  transform: scale(1.05);
+}
+
+.mat-card-header {
+  border-bottom: 1px solid #B8860B; /* Gold border */
+}
+
+/* Description */
+.event-description {
+  color: #8B4513; /* Darker color for the description */
+  margin-top: 10px;
+}
+
+/* Button styles */
+.mat-button {
+  color: #FFFFFF; /* White text */
+  background-color: #B8860B; /* Gold background */
+  border: 1px solid #B8860B; /* Gold border */
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.mat-button:hover {
+  background-color: #DAA520; /* Darker gold on hover */
+  transform: scale(1.05);
+}
+
+/* Button container */
+.mat-card-actions {
+  display: flex;
+  justify-content: space-between;
 }
