@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
@@ -49,25 +49,26 @@ import { CreateEventComponent } from './create-event/create-event.component';
     CreateEventComponent,
 
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    RouterOutlet,
-    RouterLink,
-    AppRoutingModule,
-    MatGridListModule,
-    MatCardModule,
-    MatButtonModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatInputModule,
-    MatTableModule,
-    MatTabsModule,
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        FormsModule,
+        RouterOutlet,
+        RouterLink,
+        AppRoutingModule,
+        MatGridListModule,
+        MatCardModule,
+        MatButtonModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatInputModule,
+        MatTableModule,
+        MatTabsModule,
+        ReactiveFormsModule,
 
 
-  ],
+    ],
   providers: [ContactService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ]
