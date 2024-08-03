@@ -1,0 +1,56 @@
+// Global Styles
+body {
+  background-color: #f8f9fa; // Light grey background
+}
+
+// Event Card
+.card {
+  background-color: #fff8e1; // Light beige
+}
+
+.card-header {
+  background-color: #ffc107; // Yellow
+  color: #fff;
+}
+
+.btn-warning {
+  background-color: #ffc107; // Yellow
+  border: none;
+  &:hover {
+    background-color: #e0a800;
+  }
+}
+
+.btn-danger {
+  background-color: #dc3545; // Red
+  border: none;
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.btn-success {
+  background-color: #28a745; // Green
+  border: none;
+  &:hover {
+    background-color: #218838;
+  }
+}
+
+.btn-secondary {
+  background-color: #6c757d; // Grey
+  border: none;
+  &:hover {
+    background-color: #5a6268;
+  }
+}
+
+// Form Elements
+.form-control {
+  background-color: #f8f9fa; // Light grey for form controls
+  border: 1px solid #ced4da;
+}
+
+.alert {
+  border-radius: 0;
+}
