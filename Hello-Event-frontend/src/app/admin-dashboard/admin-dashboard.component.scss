@@ -4,6 +4,15 @@ body {
 
 .card {
   border: 1px solid #ffc107; /* Yellow border */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+h2 {
+  color: #b8860b; /* Gold color */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .card-title {
@@ -11,7 +20,14 @@ body {
 }
 
 .list-group-item {
-  background-color: #ffebcd; /* Beige background color */
+  background-color: #fff3cd; /* Beige background color */
+  border-radius: 5px;
+  border: 1px solid #b8860b; /* Gold border */
+  transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #fff3cd; /* Light yellow hover effect */
 }
 
 .btn-primary {
