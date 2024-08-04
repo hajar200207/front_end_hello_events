@@ -1,22 +1,28 @@
 <div class="auth-container">
   <h2>Register</h2>
   <form (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
-      <mat-label>Username</mat-label>
-      <input matInput [(ngModel)]="user.username" name="username" required>
-      <mat-icon matSuffix>person</mat-icon>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="user.email" name="email" type="email" required>
-      <mat-icon matSuffix>email</mat-icon>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Password</mat-label>
-      <input matInput [(ngModel)]="user.password" name="password" type="password" required>
-      <mat-icon matSuffix>lock</mat-icon>
-    </mat-form-field>
-    <button mat-raised-button color="accent" type="submit">Register</button>
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput [(ngModel)]="user.username" name="username" required>
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="user.email" name="email" type="email" required>
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput [(ngModel)]="user.password" name="password" type="password" required>
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="accent" type="submit" class="btn btn-primary animate-button">Register</button>
   </form>
   <div class="login-link">
     <span>Déjà un compte ?</span>

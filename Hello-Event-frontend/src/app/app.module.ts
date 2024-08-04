@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { ListEventComponent } from './list-event/list-event.component';
 
 
 import { AppComponent } from './app.component';
@@ -31,9 +32,11 @@ import {MatTableModule} from "@angular/material/table";
 import {MatTabsModule} from "@angular/material/tabs";
 import { CreateEventComponent } from './create-event/create-event.component';
 
+
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
+    ListEventComponent,
     AppComponent,
     LoginComponent,
     RegisterComponent,

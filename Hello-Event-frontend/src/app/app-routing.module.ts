@@ -11,6 +11,7 @@ import {EventDetailsComponent} from "./event-details/event-details.component";
 import {EventSearchComponent} from "./event-search/event-search.component";
 //import { EventCreateComponent } from './create-event/create-event.component';
 import { CreateEventComponent } from './create-event/create-event.component';
+import { ListEventComponent } from './list-event/list-event.component';
 
 const routes: Routes = [
   { path: 'create-event', component: CreateEventComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'event/:id', component: EventDetailsComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'events', component: ListEventComponent },
   //{ path: 'create-event', component: EventCreateComponent },
 ];
 
